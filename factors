@@ -1,0 +1,38 @@
+#!/usr/bin/python3
+import sys
+import math
+from fractions import gcd
+
+def factorize(N):
+    """this function finds the factors of an integer N
+    Args:
+        N: number to be factorized
+    """
+    factors = []
+    for i in range(1, N + 1):
+        if N % i == 0:
+            factors.append(i)
+    current_lcf = factors[0]
+    for lcf in factors[1:]:
+        current_lcf = gcd(current_lcf, lcf)
+    print(current_lcf)
+
+def main(filename):
+    try:
+        with open(filename, 'r') as factors_file:
+            for line in factors_file:
+                try:
+                    n = int(line.strip())
+                    factors = factorize(n)
+                except ValueError:
+                    print("Skipping invalid input:{}".format(line.strip()))
+    except FileNotFoundError:
+        print("File not found: {}".format(filename))
+
+if __name__ =="__main__":
+    if len(sys.argv) != 2:
+        print("Usage: ./script.py <input_filename>")
+        sys.exit(1)
+
+    input_filename = sys.argv[1]
+    main(input_filename)
